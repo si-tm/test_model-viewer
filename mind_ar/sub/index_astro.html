@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image.prod.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+</head>
+<body>
+  <a-scene mindar-image="imageTargetSrc: ../assets/target-images/mendako.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-assets>
+      <img id="card" src="../assets/target-images/mendako.png" />
+      <a-asset-item id="astronautModel" src="assets/models/NeilArmstrong.glb"></a-asset-item>
+      <a-asset-item id="penguinModel" src="assets/models/penguinex.glb"></a-asset-item> <!-- ペンギンモデルのアセットを追加 -->
+    </a-assets>
+
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+    <a-entity mindar-image-target="targetIndex: 0">
+      <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+      <a-gltf-model id="gltfModel" rotation="0 -90 0" position="0 0 0.1" scale="0.5 0.5 0.5" src="#astronautModel"></a-gltf-model>
+      <a-gltf-model id="gltfModel" rotation="0 -90 0" position="0 0 0.1" scale="0.5 0.5 0.5" src="#penguinModel"></a-gltf-model>
+    </a-entity>
+  </a-scene>
+
+  <script>
+  let modelLoaded = false; // モデルが読み込まれたかどうかを追跡
+
+  document.querySelector('#gltfModel').addEventListener('model-loaded', () => {
+    modelLoaded = true; // モデルが読み込まれたときにフラグを立てる
+
+    // モデルが読み込まれた後に何かアクションを実行する
+    updateModel();
+  });
+
+  function updateModel() {
+    if (modelLoaded) {
+    //   let condition = Math.random() < 0.5; // ランダムに条件を設定
+      let condition = false;
+      const gltfModel = document.querySelector('#gltfModel');
+      if (condition) {
+          gltfModel.setAttribute('gltf-model', '#astronautModel'); // 宇宙飛行士モデルを表示
+        } else {
+            gltfModel.setAttribute('gltf-model', '#penguinModel'); // ペンギンモデルを表示
+        }
+    }
+  }
+</script>
+
+</body>
+</html>
